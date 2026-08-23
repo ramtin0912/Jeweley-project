@@ -1,0 +1,29 @@
+<script setup lang="ts">
+import type { Package } from '~/types/catalog'
+import { formatToman } from '~/utils/formatToman'
+
+const { data: packages } = await useFetch<Package[]>('/api/packages', { default: () => [] })
+</script>
+
+<template>
+  <div>
+    <h1 class="text-2xl font-bold">پکیج‌ها</h1>
+    <p class="mt-1 text-neutral-500">چند محصول در یک بسته با قیمت ثابت.</p>
+
+    <div class="mt-6 grid gap-6 md:grid-cols-2">
+      <div v-for="pkg in packages" :key="pkg.id" class="rounded-lg border border-neutral-200 p-5">
+        <h2 class="text-lg font-semibold">{{ pkg.nameFa }}</h2>
+        <p class="mt-1 text-neutral-600">{{ pkg.descriptionFa }}</p>
+
+        <ul class="mt-4 space-y-1 text-sm text-neutral-600">
+          <li v-for="item in pkg.items" :key="item.id">
+            {{ item.product.nameFa }} <span v-if="item.variant">({{ item.variant.value }})</span>
+            × {{ item.quantity }}
+          </li>
+        </ul>
+
+        <p class="mt-4 text-lg font-medium text-accent-dark">{{ formatToman(pkg.priceToman) }}</p>
+      </div>
+    </div>
+  </div>
+</template>

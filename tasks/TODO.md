@@ -7,13 +7,14 @@ Track current stage here. One stage at a time.
 - [x] Tailwind + RTL + Vazirmatn
 - [x] Prisma schema + client
 - [x] pi context layer (AGENTS.md, _config, skills)
-- [ ] git init + first commits
-- [ ] dev server / build smoke test
+- [x] git init + first commits
+- [x] dev server / build smoke test
 
 ## Stage 1 — Storefront catalog
-- [ ] categories, products, quick-buy grid
-- [ ] product detail page
-- [ ] search + filters (client-side)
+- [x] categories, products, quick-buy grid
+- [x] product detail page
+- [x] search + filters (client-side)
+- [x] packages page + portfolio page
 
 ## Stage 2 — Cart + guest checkout + OTP
 - [ ] cart store (localStorage)
