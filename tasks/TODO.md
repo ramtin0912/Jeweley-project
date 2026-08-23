@@ -17,9 +17,10 @@ Track current stage here. One stage at a time.
 - [x] packages page + portfolio page
 
 ## Stage 2 — Cart + guest checkout + OTP
-- [ ] cart store (localStorage)
-- [ ] checkout form (name, phone, address)
-- [ ] Kavenegar OTP send/verify
+- [x] cart store (localStorage)
+- [x] checkout form (name, phone, address)
+- [x] Kavenegar OTP send/verify (dev fallback: logs code)
+- [x] order creation (PENDING) with DB re-pricing
 
 ## Stage 3 — Zarinpal payment
 - [ ] payment request + callback + verify (sandbox)

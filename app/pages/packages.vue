@@ -1,8 +1,28 @@
 <script setup lang="ts">
 import type { Package } from '~/types/catalog'
 import { formatToman } from '~/utils/formatToman'
+import { useCartStore } from '~/stores/cartStore'
+import { useCartDrawer } from '~/composables/useCartDrawer'
 
 const { data: packages } = await useFetch<Package[]>('/api/packages', { default: () => [] })
+const cart = useCartStore()
+const { open } = useCartDrawer()
+
+function addPackage(pkg: Package) {
+  if (pkg.stockCount <= 0) return
+  cart.addItem({
+    itemType: 'package',
+    itemId: pkg.id,
+    nameFa: pkg.nameFa,
+    priceToman: pkg.priceToman,
+    quantity: 1,
+    image: pkg.image,
+    slug: pkg.slug,
+    variantId: null,
+    variantLabel: null
+  })
+  open()
+}
 </script>
 
 <template>
@@ -23,6 +43,14 @@ const { data: packages } = await useFetch<Package[]>('/api/packages', { default:
         </ul>
 
         <p class="mt-4 text-lg font-medium text-accent-dark">{{ formatToman(pkg.priceToman) }}</p>
+
+        <button
+          v-if="pkg.stockCount > 0"
+          class="mt-4 w-full rounded-md bg-neutral-900 py-2 text-sm text-white hover:bg-neutral-700"
+          @click="addPackage(pkg)"
+        >
+          افزودن به سبد
+        </button>
       </div>
     </div>
   </div>
