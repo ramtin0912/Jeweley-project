@@ -28,10 +28,10 @@ Track current stage here. One stage at a time.
 - [x] verify-failure → order CANCELED
 
 ## Stage 4 — Admin panel
-- [ ] password auth
-- [ ] products / packages / portfolio CRUD
-- [ ] orders + earnings (Shamsi)
-- [ ] SEO fields
+- [x] password auth (bcrypt + session cookie)
+- [x] products / packages / portfolio CRUD
+- [x] orders + earnings (Shamsi)
+- [x] SEO fields (slug, seoTitle, seoDescription)
 
 ## Stage 5 — SEO
 - [ ] Persian slugs + meta + JSON-LD

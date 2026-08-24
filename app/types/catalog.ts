@@ -35,6 +35,8 @@ export interface Product {
   status: string
   stockCount: number
   isExclusive: boolean
+  seoTitle: string | null
+  seoDescription: string | null
   category?: Category | null
   variants: ProductVariant[]
 }
@@ -55,6 +57,8 @@ export interface Package {
   image: string | null
   status: string
   stockCount: number
+  seoTitle: string | null
+  seoDescription: string | null
   items: PackageItem[]
 }
 

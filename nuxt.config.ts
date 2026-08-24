@@ -24,5 +24,9 @@ export default defineNuxtConfig({
 
   typescript: {
     strict: true
+  },
+
+  routeRules: {
+    '/admin/**': { ssr: false }
   }
 })
