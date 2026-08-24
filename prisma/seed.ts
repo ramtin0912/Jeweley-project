@@ -8,6 +8,7 @@
  * @todo Replace with the real product catalog.
  */
 import 'dotenv/config'
+import bcrypt from 'bcryptjs'
 import { PrismaClient } from '../app/generated/prisma/client'
 import { PrismaPg } from '@prisma/adapter-pg'
 
@@ -188,6 +189,15 @@ async function main() {
       descriptionFa: 'ترکیب مروارید طبیعی و نقره.',
       material: 'نقره و مروارید',
       year: 1401
+    }
+  })
+
+  // Admin (single admin; default password via ADMIN_PASSWORD env, fallback admin1234)
+  await prisma.admin.deleteMany()
+  await prisma.admin.create({
+    data: {
+      username: 'admin',
+      passwordHash: bcrypt.hashSync(process.env.ADMIN_PASSWORD || 'admin1234', 10)
     }
   })
 
