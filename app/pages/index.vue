@@ -1,6 +1,11 @@
 <script setup lang="ts">
 import type { Category, Product } from '~/types/catalog'
 
+useSeoMeta({
+  title: 'فروشگاه زیورآلات دست‌ساز',
+  description: 'زیورآلات دست‌ساز نقره؛ محصول را ببینید و بلافاصله سفارش دهید.'
+})
+
 const { data: categories } = await useFetch<Category[]>('/api/categories', { default: () => [] })
 const { data: products } = await useFetch<Product[]>('/api/products', { default: () => [] })
 

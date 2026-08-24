@@ -13,6 +13,37 @@ if (error.value) {
   throw createError({ statusCode: 404, statusMessage: 'محصول یافت نشد', fatal: true })
 }
 
+useSeoMeta({
+  title: () => product.value?.seoTitle || product.value?.nameFa || 'محصول',
+  description: () => product.value?.seoDescription || product.value?.descriptionFa || '',
+  ogTitle: () => product.value?.seoTitle || product.value?.nameFa || 'محصول',
+  ogDescription: () => product.value?.seoDescription || product.value?.descriptionFa || '',
+  ogImage: () => product.value?.image || ''
+})
+
+useHead({
+  script: [
+    {
+      type: 'application/ld+json',
+      innerHTML: () => JSON.stringify({
+        '@context': 'https://schema.org',
+        '@type': 'Product',
+        name: product.value?.nameFa ?? '',
+        description: product.value?.descriptionFa ?? '',
+        ...(product.value?.image ? { image: product.value.image } : {}),
+        offers: {
+          '@type': 'Offer',
+          priceCurrency: 'IRR',
+          price: (product.value?.priceToman ?? 0) * 10,
+          availability: product.value && product.value.stockCount > 0
+            ? 'https://schema.org/InStock'
+            : 'https://schema.org/OutOfStock'
+        }
+      })
+    }
+  ]
+})
+
 const cart = useCartStore()
 const { open } = useCartDrawer()
 

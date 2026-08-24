@@ -34,9 +34,9 @@ Track current stage here. One stage at a time.
 - [x] SEO fields (slug, seoTitle, seoDescription)
 
 ## Stage 5 — SEO
-- [ ] Persian slugs + meta + JSON-LD
-- [ ] sitemap.xml + robots.txt
-- [ ] blog (Nuxt Content)
+- [x] Persian slugs + meta + JSON-LD
+- [x] sitemap.xml + robots.txt
+- [x] blog (DB-backed + markdown-it)
 
 ## Stage 6 — Deploy
 - [ ] private GitHub repo

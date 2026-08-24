@@ -20,3 +20,7 @@
 
 ## 2026-08-22 — Single product image for now
 - Why: MVP scope; upgrade to a gallery later via an `images[]` migration.
+
+## 2026-08-24 — Blog: DB-backed + markdown-it (not Nuxt Content)
+- Why: Nuxt Content v3 API uncertainty; DB-backed matches the rest of the app and lets the
+  admin manage posts later. markdown-it renders on the server.

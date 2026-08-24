@@ -11,3 +11,21 @@
     @apply bg-white text-neutral-900 antialiased;
   }
 }
+
+@layer components {
+  .markdown-content h1 {
+    @apply mt-6 mb-3 text-2xl font-bold;
+  }
+  .markdown-content h2 {
+    @apply mt-5 mb-2 text-xl font-bold;
+  }
+  .markdown-content p {
+    @apply mb-4 leading-relaxed;
+  }
+  .markdown-content ul {
+    @apply mb-4 list-disc space-y-1 pr-6;
+  }
+  .markdown-content a {
+    @apply text-accent-dark underline;
+  }
+}

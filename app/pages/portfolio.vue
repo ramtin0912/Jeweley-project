@@ -1,6 +1,11 @@
 <script setup lang="ts">
 import type { PortfolioWork } from '~/types/catalog'
 
+useSeoMeta({
+  title: 'نمونه‌کارها',
+  description: 'آثار قبلی و سفارشی.'
+})
+
 const { data: works } = await useFetch<PortfolioWork[]>('/api/portfolio', { default: () => [] })
 </script>
 

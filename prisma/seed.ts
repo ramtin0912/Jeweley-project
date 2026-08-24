@@ -201,6 +201,20 @@ async function main() {
     }
   })
 
+  // Blog posts (demo post)
+  await prisma.post.deleteMany()
+  await prisma.post.create({
+    data: {
+      titleFa: 'راهنمای انتخاب گردنبند نقره',
+      slug: 'rahnama-nekland-noqreh',
+      contentMd: '# راهنمای انتخاب گردنبند نقره\n\nانتخاب گردنبند نقره مناسب به فرم صورت، استایل شخصی و موقعیت استفاده بستگی دارد. نقره ۹۲۵ با عیار بالا برای استفاده روزمره مناسب است و حساسیت ایجاد نمی‌کند.\n\n## نکات مهم\n\n- به طول زنجیر توجه کنید؛ زنجیر کوتاه برای یقه‌های باز مناسب است.\n- برای پوست حساس از نقره ۹۲۵ استفاده کنید.\n- طرح‌های مینیمال برای استفاده روزمره بهترند.\n',
+      seoTitle: 'راهنمای انتخاب گردنبند نقره',
+      seoDescription: 'چگونه گردنبند نقره مناسب خود را انتخاب کنیم.',
+      published: true,
+      publishedAt: new Date()
+    }
+  })
+
   console.log('Seed complete.')
 }
 

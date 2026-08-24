@@ -4,6 +4,11 @@ import { formatToman } from '~/utils/formatToman'
 import { useCartStore } from '~/stores/cartStore'
 import { useCartDrawer } from '~/composables/useCartDrawer'
 
+useSeoMeta({
+  title: 'پکیج‌ها',
+  description: 'پکیج‌های چند محصولی با قیمت ثابت.'
+})
+
 const { data: packages } = await useFetch<Package[]>('/api/packages', { default: () => [] })
 const cart = useCartStore()
 const { open } = useCartDrawer()
