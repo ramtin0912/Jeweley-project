@@ -28,6 +28,10 @@ Response: `{ data: { authority, fee_type, fee }, errors }`. Use `authority` to r
 
 Success: `{ data: { code: 100, ref_id, card_pan, fee }, errors }`. `code === 100` = paid.
 
+Note: `code 101` = already verified (also success). Non-2xx responses with an `errors`
+object (e.g. `code: -51` "session not paid") mean verification failed — treat as failed,
+not as a network error.
+
 ## Rules (project)
 - Amount is in **Toman** and always matches the order total (verified server-side).
 - Never trust the callback alone; always call `verify` server-side.

@@ -29,4 +29,5 @@ export interface OrderItemPayload {
 export interface OrderResult {
   orderNumber: string
   totalToman: number
+  redirectUrl?: string
 }

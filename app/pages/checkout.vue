@@ -48,8 +48,12 @@ async function submitOrder() {
       method: 'POST',
       body: { ...form, otpCode: otpCode.value, items }
     })
-    result.value = response
     cart.clear()
+    if (response.redirectUrl) {
+      window.location.href = response.redirectUrl
+      return
+    }
+    result.value = response
   } catch (error) {
     errorMessage.value = getErrorMessage(error)
   } finally {

@@ -23,7 +23,9 @@ Track current stage here. One stage at a time.
 - [x] order creation (PENDING) with DB re-pricing
 
 ## Stage 3 — Zarinpal payment
-- [ ] payment request + callback + verify (sandbox)
+- [x] payment request + callback + verify (sandbox)
+- [x] stock reservation on payment success
+- [x] verify-failure → order CANCELED
 
 ## Stage 4 — Admin panel
 - [ ] password auth

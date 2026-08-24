@@ -155,6 +155,7 @@ model OrderItem {
   nameFa       String  @map("name_fa") // snapshot at purchase time
   priceToman   Int     @map("price_toman") // snapshot at purchase time
   quantity     Int     @default(1)
+  variantId    Int?    @map("variant_id")
   variantLabel String? @map("variant_label")
 
   @@index([orderId])

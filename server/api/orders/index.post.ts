@@ -1,14 +1,16 @@
 /**
  * @file orders index
- * @description POST /api/orders — verify OTP, re-price items from DB, create a PENDING order.
+ * @description POST /api/orders — verify OTP, re-price items from DB, create a PENDING order,
+ *   then request a Zarinpal payment and return the redirect URL.
  *
- * @status Stock validated but not decremented (reserve at payment, Stage 3)
+ * @status Payment request wired; stock reserved on payment success (see payment/callback)
  * @issues None
- * @todo Decrement/reserve stock on payment success.
+ * @todo None
  */
 import { z } from 'zod'
 import { prisma } from '~~/server/utils/prisma'
 import { isValidIranianPhone, normalizePhone, verifyOtpCode } from '~~/server/utils/otp'
+import { requestPayment, startPayUrl } from '~~/server/utils/zarinpal'
 
 const itemSchema = z.object({
   itemType: z.enum(['product', 'package']),
@@ -34,6 +36,7 @@ interface PricedItem {
   nameFa: string
   priceToman: number
   quantity: number
+  variantId: number | null
   variantLabel: string | null
 }
 
@@ -104,6 +107,7 @@ export default defineEventHandler(async (event) => {
         nameFa: product.nameFa,
         priceToman: price,
         quantity: item.quantity,
+        variantId: item.variantId ?? null,
         variantLabel
       })
       totalToman += price * item.quantity
@@ -122,6 +126,7 @@ export default defineEventHandler(async (event) => {
         nameFa: pkg.nameFa,
         priceToman: pkg.priceToman,
         quantity: item.quantity,
+        variantId: null,
         variantLabel: null
       })
       totalToman += pkg.priceToman * item.quantity
@@ -147,11 +152,26 @@ export default defineEventHandler(async (event) => {
           nameFa: item.nameFa,
           priceToman: item.priceToman,
           quantity: item.quantity,
+          variantId: item.variantId,
           variantLabel: item.variantLabel
         }))
       }
     }
   })
 
-  return { orderNumber: order.orderNumber, totalToman: order.totalToman }
+  // 4. Request Zarinpal payment and return the redirect URL
+  const origin = getRequestURL(event).origin
+  const authority = await requestPayment({
+    amountToman: totalToman,
+    description: `سفارش ${orderNumber}`,
+    callbackUrl: `${origin}/payment/callback`,
+    mobile: phone
+  })
+  await prisma.order.update({ where: { id: order.id }, data: { authority } })
+
+  return {
+    orderNumber: order.orderNumber,
+    totalToman: order.totalToman,
+    redirectUrl: startPayUrl(authority)
+  }
 })
