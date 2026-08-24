@@ -26,4 +26,12 @@ logs
 # Generated Prisma client
 app/generated/
 
+# Agent context — local-only, not committed
+AGENTS.md
+_config/
+.agents/
+tasks/
+stages/
+docs/
+
 /app/generated/prisma
