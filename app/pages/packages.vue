@@ -32,31 +32,49 @@ function addPackage(pkg: Package) {
 
 <template>
   <div>
-    <h1 class="text-2xl font-bold">پکیج‌ها</h1>
-    <p class="mt-1 text-neutral-500">چند محصول در یک بسته با قیمت ثابت.</p>
+    <p dir="ltr" class="font-engraved text-[11px] font-semibold uppercase tracking-[0.42em] text-gold-400/80">
+      Curated Sets
+    </p>
+    <div class="mt-3 flex items-center gap-4">
+      <h1 class="font-serif text-3xl font-bold text-ivory sm:text-4xl">پکیج‌ها</h1>
+      <span class="h-px flex-1 bg-gold/15"></span>
+    </div>
+    <p class="mt-3 max-w-xl text-ivory-400">چند محصول هماهنگ در یک بسته، با قیمت ثابت.</p>
 
-    <div class="mt-6 grid gap-6 md:grid-cols-2">
-      <div v-for="pkg in packages" :key="pkg.id" class="rounded-lg border border-neutral-200 p-5">
-        <h2 class="text-lg font-semibold">{{ pkg.nameFa }}</h2>
-        <p class="mt-1 text-neutral-600">{{ pkg.descriptionFa }}</p>
+    <div class="mt-8 grid gap-6 md:grid-cols-2">
+      <div
+        v-for="pkg in packages"
+        :key="pkg.id"
+        class="reveal flex flex-col border border-gold/15 bg-ink-800 p-6 transition-colors duration-500 hover:border-gold/40"
+      >
+        <div class="flex items-start justify-between gap-4">
+          <h2 class="font-serif text-2xl font-bold text-ivory">{{ pkg.nameFa }}</h2>
+          <span v-if="pkg.stockCount <= 0" class="border border-white/10 px-2 py-0.5 text-[11px] text-ivory-500">ناموجود</span>
+        </div>
+        <p class="mt-2 text-sm leading-relaxed text-ivory-400">{{ pkg.descriptionFa }}</p>
 
-        <ul class="mt-4 space-y-1 text-sm text-neutral-600">
-          <li v-for="item in pkg.items" :key="item.id">
-            {{ item.product.nameFa }} <span v-if="item.variant">({{ item.variant.value }})</span>
-            × {{ item.quantity }}
+        <ul class="mt-5 space-y-2 border-t border-gold/15 pt-5 text-sm text-ivory-400">
+          <li v-for="item in pkg.items" :key="item.id" class="flex items-center gap-2.5">
+            <span aria-hidden="true" class="text-gold-400/70">✦</span>
+            {{ item.product.nameFa }}
+            <span v-if="item.variant" class="text-ivory-500">({{ item.variant.value }})</span>
+            <span class="mr-auto text-ivory-500">× {{ item.quantity }}</span>
           </li>
         </ul>
 
-        <p class="mt-4 text-lg font-medium text-accent-dark">{{ formatToman(pkg.priceToman) }}</p>
-
-        <button
-          v-if="pkg.stockCount > 0"
-          class="mt-4 w-full rounded-md bg-neutral-900 py-2 text-sm text-white hover:bg-neutral-700"
-          @click="addPackage(pkg)"
-        >
-          افزودن به سبد
-        </button>
+        <div class="mt-6 flex items-center justify-between border-t border-gold/15 pt-5">
+          <p class="text-xl font-medium text-gold-400">{{ formatToman(pkg.priceToman) }}</p>
+          <button
+            v-if="pkg.stockCount > 0"
+            class="border border-gold/40 px-6 py-2.5 text-sm font-medium text-gold-300 transition-all duration-300 hover:border-gold hover:bg-gold hover:text-ink-950"
+            @click="addPackage(pkg)"
+          >
+            افزودن به سبد
+          </button>
+        </div>
       </div>
+
+      <p v-if="!packages?.length" class="text-ivory-400">پکیجی ثبت نشده است.</p>
     </div>
   </div>
 </template>

@@ -75,60 +75,83 @@ function addToCart() {
 </script>
 
 <template>
-  <div v-if="product" class="grid gap-8 md:grid-cols-2">
-    <div class="flex aspect-square items-center justify-center overflow-hidden rounded-lg bg-neutral-100">
+  <div v-if="product" class="grid gap-10 md:grid-cols-2 md:gap-12">
+    <!-- Image -->
+    <div class="reveal relative aspect-square overflow-hidden border border-gold/15 bg-ink-900">
       <img
         v-if="product.image"
         :src="product.image"
         :alt="product.nameFa"
         class="h-full w-full object-cover"
       />
-      <span v-else class="text-5xl text-neutral-400">{{ product.nameFa.charAt(0) }}</span>
+      <span v-else class="absolute inset-0 flex items-center justify-center font-serif text-8xl text-gold-500/40">
+        {{ product.nameFa.charAt(0) }}
+      </span>
+      <div aria-hidden="true" class="pointer-events-none absolute inset-0 ring-1 ring-inset ring-white/5"></div>
     </div>
 
-    <div>
-      <p v-if="product.category" class="text-sm text-neutral-500">{{ product.category.nameFa }}</p>
-      <h1 class="mt-1 text-2xl font-bold">{{ product.nameFa }}</h1>
-      <p class="mt-3 text-xl font-medium text-accent-dark">{{ formatToman(displayPrice) }}</p>
+    <!-- Details -->
+    <div class="reveal" style="animation-delay: 100ms">
+      <p v-if="product.category" class="text-sm text-gold-400/80">{{ product.category.nameFa }}</p>
+      <h1 class="mt-2 font-serif text-3xl font-bold leading-snug text-ivory sm:text-4xl">{{ product.nameFa }}</h1>
+      <p class="mt-4 text-2xl font-medium text-gold-400">{{ formatToman(displayPrice) }}</p>
 
-      <div class="mt-6 space-y-2 text-sm">
-        <p v-if="product.material"><span class="text-neutral-500">جنس:</span> {{ product.material }}</p>
-        <p v-if="product.weightGrams">
-          <span class="text-neutral-500">وزن:</span> {{ product.weightGrams }} گرم
-        </p>
-        <p :class="product.stockCount > 0 ? 'text-green-700' : 'text-red-600'">
-          {{ product.stockCount > 0 ? `موجود (${product.stockCount} عدد)` : 'ناموجود' }}
-        </p>
+      <div class="mt-6 border-y border-gold/15 py-4">
+        <dl class="space-y-3 text-sm">
+          <div v-if="product.material" class="flex justify-between gap-6">
+            <dt class="text-ivory-500">جنس</dt>
+            <dd class="text-ivory">{{ product.material }}</dd>
+          </div>
+          <div v-if="product.weightGrams" class="flex justify-between gap-6">
+            <dt class="text-ivory-500">وزن</dt>
+            <dd class="text-ivory">{{ product.weightGrams }} گرم</dd>
+          </div>
+          <div class="flex items-center justify-between gap-6">
+            <dt class="text-ivory-500">وضعیت</dt>
+            <dd class="flex items-center gap-2">
+              <span
+                class="h-1.5 w-1.5 rounded-full"
+                :class="product.stockCount > 0 ? 'bg-gold-400' : 'bg-red-400'"
+              ></span>
+              <span :class="product.stockCount > 0 ? 'text-gold-300' : 'text-red-400'">
+                {{ product.stockCount > 0 ? `موجود (${product.stockCount} عدد)` : 'ناموجود' }}
+              </span>
+            </dd>
+          </div>
+        </dl>
       </div>
 
       <div v-if="product.variants.length" class="mt-6">
-        <p class="mb-2 text-sm font-medium">انتخاب:</p>
+        <p class="mb-3 text-sm text-ivory-500">انتخاب</p>
         <div class="flex flex-wrap gap-2">
           <button
             v-for="variant in product.variants"
             :key="variant.id"
-            class="rounded-md border px-3 py-1.5 text-sm"
-            :class="selectedVariantId === variant.id ? 'border-accent bg-accent text-white' : 'border-neutral-300 hover:border-accent'"
+            class="border px-4 py-2 text-sm transition-colors duration-300"
+            :class="selectedVariantId === variant.id ? 'border-gold bg-gold/15 text-gold-300' : 'border-gold/20 text-ivory-400 hover:border-gold/50 hover:text-ivory'"
             @click="selectedVariantId = variant.id"
           >
             {{ variant.value }}
-            <span v-if="variant.priceDeltaToman">(+{{ formatToman(variant.priceDeltaToman) }})</span>
+            <span v-if="variant.priceDeltaToman" class="text-gold-500">(+{{ formatToman(variant.priceDeltaToman) }})</span>
           </button>
         </div>
       </div>
 
-      <div v-if="product.stockCount > 0" class="mt-6 flex items-center gap-3">
-        <div class="flex items-center rounded-md border border-neutral-300">
-          <button class="px-3 py-2 text-sm" @click="quantity = Math.max(1, quantity - 1)">−</button>
-          <span class="min-w-8 text-center text-sm">{{ quantity }}</span>
-          <button class="px-3 py-2 text-sm" @click="quantity = quantity + 1">+</button>
+      <div v-if="product.stockCount > 0" class="mt-8 flex items-center gap-3">
+        <div class="flex items-center border border-gold/25">
+          <button class="px-4 py-2.5 text-sm text-ivory-400 transition-colors hover:text-ivory" @click="quantity = Math.max(1, quantity - 1)">−</button>
+          <span class="min-w-10 border-x border-gold/25 text-center text-sm">{{ quantity }}</span>
+          <button class="px-4 py-2.5 text-sm text-ivory-400 transition-colors hover:text-ivory" @click="quantity = quantity + 1">+</button>
         </div>
-        <button class="rounded-md bg-neutral-900 px-6 py-2 text-sm text-white hover:bg-neutral-700" @click="addToCart">
+        <button
+          class="flex-1 border border-gold bg-gold px-6 py-2.5 text-sm font-medium text-ink-950 transition-all duration-300 hover:bg-gold-300"
+          @click="addToCart"
+        >
           افزودن به سبد
         </button>
       </div>
 
-      <p class="mt-6 leading-relaxed text-neutral-700">{{ product.descriptionFa }}</p>
+      <p v-if="product.descriptionFa" class="mt-8 leading-relaxed text-ivory-400">{{ product.descriptionFa }}</p>
     </div>
   </div>
 </template>
