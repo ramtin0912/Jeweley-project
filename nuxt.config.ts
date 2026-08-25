@@ -5,7 +5,13 @@ export default defineNuxtConfig({
 
   modules: ['@nuxtjs/tailwindcss', '@pinia/nuxt'],
 
-  css: ['vazirmatn/Vazirmatn-Variable-font-face.css'],
+  css: [
+    'vazirmatn/Vazirmatn-Variable-font-face.css',
+    '@fontsource/amiri/arabic-400.css',
+    '@fontsource/amiri/arabic-700.css',
+    '@fontsource/cinzel/latin-400.css',
+    '@fontsource/cinzel/latin-600.css'
+  ],
 
   tailwindcss: {
     cssPath: '~/assets/css/main.css'
