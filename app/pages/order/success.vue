@@ -5,11 +5,15 @@ const orderNumber = (route.query.orderNumber as string) ?? ''
 
 <template>
   <div class="mx-auto max-w-md py-12 text-center">
-    <div class="rounded-lg border border-green-200 bg-green-50 p-6">
-      <h1 class="text-xl font-bold text-green-800">پرداخت موفق</h1>
-      <p class="mt-2 text-sm text-green-700">سفارش شما با موفقیت ثبت و پرداخت شد.</p>
-      <p v-if="orderNumber" class="mt-1 text-sm text-green-700">شماره سفارش: {{ orderNumber }}</p>
-      <NuxtLink to="/" class="mt-4 inline-block rounded-md bg-neutral-900 px-6 py-2 text-sm text-white">
+    <div class="border border-gold/40 bg-ink-800 p-8">
+      <span aria-hidden="true" class="font-serif text-4xl text-gold-400">✦</span>
+      <h1 class="mt-4 font-serif text-2xl font-bold text-ivory">پرداخت موفق</h1>
+      <p class="mt-2 text-ivory-400">سفارش شما با موفقیت ثبت و پرداخت شد.</p>
+      <p v-if="orderNumber" class="mt-2 text-gold-300">شماره سفارش: {{ orderNumber }}</p>
+      <NuxtLink
+        to="/"
+        class="mt-6 inline-block border border-gold bg-gold px-8 py-2.5 text-sm font-medium text-ink-950 transition-colors hover:bg-gold-300"
+      >
         بازگشت به فروشگاه
       </NuxtLink>
     </div>
