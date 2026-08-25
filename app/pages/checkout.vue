@@ -122,27 +122,27 @@ async function submitOrder() {
       <div class="mt-8 grid gap-4 sm:grid-cols-2">
         <label class="block text-sm text-ivory-400">
           نام و نام خانوادگی
-          <input v-model="form.customerName" type="text" required class="mt-1.5 w-full border border-gold/20 bg-ink-800 px-3 py-2.5 text-ivory placeholder:text-ivory-500 focus:border-gold-400 focus:outline-none focus:ring-1 focus:ring-gold-400/40" />
+          <input v-model="form.customerName" type="text" required class="field-input" />
         </label>
         <label class="block text-sm text-ivory-400">
           شماره موبایل
-          <input v-model="form.phone" type="tel" dir="ltr" placeholder="09xxxxxxxxx" required class="mt-1.5 w-full border border-gold/20 bg-ink-800 px-3 py-2.5 text-ivory placeholder:text-ivory-500 focus:border-gold-400 focus:outline-none focus:ring-1 focus:ring-gold-400/40" />
+          <input v-model="form.phone" type="tel" dir="ltr" placeholder="09xxxxxxxxx" required class="field-input" />
         </label>
         <label class="block text-sm text-ivory-400">
           استان
-          <input v-model="form.province" type="text" required class="mt-1.5 w-full border border-gold/20 bg-ink-800 px-3 py-2.5 text-ivory placeholder:text-ivory-500 focus:border-gold-400 focus:outline-none focus:ring-1 focus:ring-gold-400/40" />
+          <input v-model="form.province" type="text" required class="field-input" />
         </label>
         <label class="block text-sm text-ivory-400">
           شهر
-          <input v-model="form.city" type="text" required class="mt-1.5 w-full border border-gold/20 bg-ink-800 px-3 py-2.5 text-ivory placeholder:text-ivory-500 focus:border-gold-400 focus:outline-none focus:ring-1 focus:ring-gold-400/40" />
+          <input v-model="form.city" type="text" required class="field-input" />
         </label>
         <label class="block text-sm text-ivory-400 sm:col-span-2">
           آدرس کامل
-          <input v-model="form.address" type="text" required class="mt-1.5 w-full border border-gold/20 bg-ink-800 px-3 py-2.5 text-ivory placeholder:text-ivory-500 focus:border-gold-400 focus:outline-none focus:ring-1 focus:ring-gold-400/40" />
+          <input v-model="form.address" type="text" required class="field-input" />
         </label>
         <label class="block text-sm text-ivory-400">
           کد پستی (اختیاری)
-          <input v-model="form.postalCode" type="text" dir="ltr" class="mt-1.5 w-full border border-gold/20 bg-ink-800 px-3 py-2.5 text-ivory placeholder:text-ivory-500 focus:border-gold-400 focus:outline-none focus:ring-1 focus:ring-gold-400/40" />
+          <input v-model="form.postalCode" type="text" dir="ltr" class="field-input" />
         </label>
       </div>
 

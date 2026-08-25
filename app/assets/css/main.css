@@ -52,6 +52,11 @@
     animation: reveal-up 0.7s cubic-bezier(0.22, 1, 0.36, 1) both;
   }
 
+  /* Shared dark form-field treatment. */
+  .field-input {
+    @apply mt-1.5 w-full border border-gold/20 bg-ink-800 px-3 py-2.5 text-ivory placeholder:text-ivory-500 focus:border-gold-400 focus:outline-none focus:ring-1 focus:ring-gold-400/40;
+  }
+
   .markdown-content h1 {
     @apply mt-6 mb-3 font-serif text-3xl font-bold text-ivory;
   }

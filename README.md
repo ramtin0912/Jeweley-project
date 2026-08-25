@@ -5,7 +5,7 @@ exclusive works, a portfolio of past works, and a multi-product package section.
 
 ## Stack
 
-Nuxt 4 (Vue 3 + TypeScript) · Tailwind CSS (RTL, Vazirmatn) · Pinia · PostgreSQL (Prisma) ·
+Nuxt 4 (Vue 3 + TypeScript) · Tailwind CSS (RTL, Vazirmatn + Amiri/Cinzel display) · Pinia · PostgreSQL (Prisma) ·
 Zarinpal (payment) · Kavenegar (SMS OTP).
 
 ## Development
