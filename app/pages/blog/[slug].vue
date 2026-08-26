@@ -19,14 +19,14 @@ useSeoMeta({
 
 <template>
   <article v-if="post" class="mx-auto max-w-3xl">
-    <p dir="ltr" class="font-engraved text-[11px] font-semibold uppercase tracking-[0.42em] text-gold-400/80">
+    <p dir="ltr" class="font-engraved text-[11px] font-semibold uppercase tracking-[0.42em] text-silver-700">
       Journal
     </p>
-    <h1 class="mt-3 font-serif text-3xl font-bold leading-snug text-ivory sm:text-4xl">{{ post.titleFa }}</h1>
-    <p class="mt-3 flex items-center gap-2 text-sm text-ivory-500">
-      <span aria-hidden="true" class="text-gold-500">✦</span>
+    <h1 class="mt-3 font-serif text-4xl font-bold leading-snug text-ink sm:text-5xl">{{ post.titleFa }}</h1>
+    <p class="mt-3 flex items-center gap-2 text-sm text-ink-400">
+      <span aria-hidden="true" class="text-ice-500">✦</span>
       {{ toShamsiDate(post.publishedAt) }}
     </p>
-    <div class="markdown-content mt-8 border-t border-gold/15 pt-8" v-html="post.contentHtml"></div>
+    <div class="markdown-content mt-8 border-t border-silver/70 pt-8" v-html="post.contentHtml"></div>
   </article>
 </template>

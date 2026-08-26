@@ -5,7 +5,7 @@ exclusive works, a portfolio of past works, and a multi-product package section.
 
 ## Stack
 
-Nuxt 4 (Vue 3 + TypeScript) · Tailwind CSS (RTL, Vazirmatn + Amiri/Cinzel display) · Pinia · PostgreSQL (Prisma) ·
+Nuxt 4 (Vue 3 + TypeScript) · Tailwind CSS (RTL, Vazirmatn + Markazi Text/Cinzel display) · Pinia · PostgreSQL (Prisma) ·
 Zarinpal (payment) · Kavenegar (SMS OTP).
 
 ## Development
@@ -33,6 +33,10 @@ npm run dev
 
 **Admin panel:** http://localhost:3000/admin — login `admin` / `admin1234`
 (set `ADMIN_PASSWORD` in `.env` **before** seeding to use your own password).
+
+**Dev quick-login:** in development the login page shows a one-click "ورود با کاربر پیش‌فرض"
+button (and the default credential hint). It calls a dev-only endpoint (`/api/admin/auth/dev-login`)
+and is disabled outside development. Make sure the DB is seeded so the admin exists.
 
 **Note:** with no `KAVENEGAR_API_KEY` set, the OTP code is printed to the server console
 instead of SMS'd (dev mode). Payment uses Zarinpal sandbox when `ZARINPAL_SANDBOX=true`.

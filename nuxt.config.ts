@@ -7,8 +7,8 @@ export default defineNuxtConfig({
 
   css: [
     'vazirmatn/Vazirmatn-Variable-font-face.css',
-    '@fontsource/amiri/arabic-400.css',
-    '@fontsource/amiri/arabic-700.css',
+    '@fontsource/markazi-text/arabic-400.css',
+    '@fontsource/markazi-text/arabic-700.css',
     '@fontsource/cinzel/latin-400.css',
     '@fontsource/cinzel/latin-600.css'
   ],

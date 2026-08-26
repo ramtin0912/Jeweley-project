@@ -26,17 +26,30 @@ const links = [
 </script>
 
 <template>
-  <div dir="rtl" class="min-h-screen bg-neutral-100">
-    <header class="flex items-center justify-between border-b border-neutral-200 bg-white px-6 py-3">
-      <div class="flex flex-wrap items-center gap-6">
-        <span class="font-bold">مدیریت فروشگاه</span>
-        <nav class="flex gap-4 text-sm">
-          <NuxtLink v-for="link in links" :key="link.to" :to="link.to" class="hover:text-accent">
-            {{ link.label }}
+  <div dir="rtl" class="min-h-screen bg-neutral-100 text-neutral-900">
+    <header class="sticky top-0 z-40 border-b border-neutral-200 bg-white">
+      <div class="mx-auto flex max-w-6xl items-center justify-between px-6 py-3">
+        <div class="flex flex-wrap items-center gap-6">
+          <NuxtLink to="/admin" class="flex items-center gap-2 font-serif text-lg font-bold">
+            <span aria-hidden="true" class="text-clay">✦</span>
+            مدیریت فروشگاه
           </NuxtLink>
-        </nav>
+          <nav class="flex gap-2 text-sm">
+            <NuxtLink
+              v-for="link in links"
+              :key="link.to"
+              :to="link.to"
+              class="rounded-full px-3.5 py-1.5 text-neutral-600 transition-colors duration-300 hover:bg-neutral-100 hover:text-neutral-900"
+              active-class="bg-clay text-white hover:bg-clay hover:text-white"
+            >
+              {{ link.label }}
+            </NuxtLink>
+          </nav>
+        </div>
+        <button class="rounded-full border border-neutral-200 px-3.5 py-1.5 text-sm text-neutral-600 transition-colors hover:border-red-300 hover:text-red-600" @click="logout">
+          خروج
+        </button>
       </div>
-      <button class="text-sm text-neutral-600 hover:text-red-600" @click="logout">خروج</button>
     </header>
 
     <main v-if="!checking" class="mx-auto max-w-6xl px-6 py-8">
