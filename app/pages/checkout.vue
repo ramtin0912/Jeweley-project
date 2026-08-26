@@ -65,89 +65,79 @@ async function submitOrder() {
 <template>
   <div class="mx-auto max-w-2xl">
     <!-- Success -->
-    <div v-if="result" class="border border-gold/40 bg-ink-800 p-10 text-center">
-      <span aria-hidden="true" class="font-serif text-4xl text-gold-400">✦</span>
-      <h1 class="mt-4 font-serif text-2xl font-bold text-ivory">سفارش ثبت شد</h1>
-      <p class="mt-3 text-gold-300">شماره سفارش: {{ result.orderNumber }}</p>
-      <p class="mt-1 text-ivory-400">مبلغ قابل پرداخت: {{ formatToman(result.totalToman) }}</p>
-      <p class="mt-4 text-sm text-ivory-500">پرداخت آنلاین در مرحله بعدی فعال می‌شود.</p>
-      <NuxtLink
-        to="/"
-        class="mt-6 inline-block border border-gold bg-gold px-8 py-2.5 text-sm font-medium text-ink-950 transition-colors hover:bg-gold-300"
-      >
-        بازگشت به فروشگاه
-      </NuxtLink>
+    <div v-if="result" class="rounded-2xl border border-silver/70 bg-white p-10 text-center">
+      <span aria-hidden="true" class="font-serif text-4xl text-ice-500">✦</span>
+      <h1 class="mt-4 font-serif text-3xl font-bold text-ink">سفارش ثبت شد</h1>
+      <p class="mt-3 text-ink-500">شماره سفارش: {{ result.orderNumber }}</p>
+      <p class="mt-1 text-ink-400">مبلغ قابل پرداخت: {{ formatToman(result.totalToman) }}</p>
+      <p class="mt-4 text-sm text-ink-400">پرداخت آنلاین در مرحله بعدی فعال می‌شود.</p>
+      <NuxtLink to="/" class="btn-primary mt-6">بازگشت به فروشگاه</NuxtLink>
     </div>
 
     <!-- Empty cart -->
     <div v-else-if="cart.items.length === 0" class="flex flex-col items-center py-20 text-center">
-      <span aria-hidden="true" class="font-serif text-4xl text-gold-500/50">✦</span>
-      <p class="mt-4 text-ivory-400">سبد خرید خالی است.</p>
-      <NuxtLink
-        to="/"
-        class="mt-6 border border-gold/40 px-8 py-2.5 text-sm font-medium text-gold-300 transition-all hover:border-gold hover:text-gold-200"
-      >
-        مشاهده محصولات
-      </NuxtLink>
+      <span aria-hidden="true" class="font-serif text-4xl text-ice-500/60">✦</span>
+      <p class="mt-4 text-ink-400">سبد خرید خالی است.</p>
+      <NuxtLink to="/" class="btn-ghost mt-6">مشاهده محصولات</NuxtLink>
     </div>
 
     <!-- Checkout form -->
     <div v-else>
       <div class="flex items-center gap-4">
-        <h1 class="font-serif text-3xl font-bold text-ivory">ثبت سفارش</h1>
-        <span class="h-px flex-1 bg-gold/15"></span>
+        <h1 class="font-serif text-4xl font-bold text-ink">ثبت سفارش</h1>
+        <span class="h-px flex-1 bg-silver/70"></span>
       </div>
 
       <!-- Cart summary -->
-      <ul class="mt-6 space-y-2.5 border border-gold/15 bg-ink-800 p-5 text-sm">
+      <ul class="mt-6 space-y-2.5 rounded-2xl border border-silver/70 bg-white p-5 text-sm">
         <li
           v-for="item in cart.items"
           :key="`${item.itemType}-${item.itemId}-${item.variantId}`"
           class="flex justify-between gap-4"
         >
-          <span class="text-ivory-400">
+          <span class="text-ink-400">
             {{ item.nameFa }}
-            <span v-if="item.variantLabel" class="text-ivory-500">({{ item.variantLabel }})</span>
+            <span v-if="item.variantLabel" class="text-ink-400">({{ item.variantLabel }})</span>
             × {{ item.quantity }}
           </span>
-          <span class="text-ivory">{{ formatToman(item.priceToman * item.quantity) }}</span>
+          <span class="text-ink">{{ formatToman(item.priceToman * item.quantity) }}</span>
         </li>
-        <li class="flex justify-between border-t border-gold/15 pt-3 font-medium text-ivory">
+        <li class="flex justify-between border-t border-silver/60 pt-3 font-medium text-ink">
           <span>جمع کل</span>
-          <span class="text-gold-400">{{ formatToman(cart.totalToman) }}</span>
+          <span class="text-clay">{{ formatToman(cart.totalToman) }}</span>
         </li>
       </ul>
 
       <!-- Customer info -->
       <div class="mt-8 grid gap-4 sm:grid-cols-2">
-        <label class="block text-sm text-ivory-400">
+        <label class="block text-sm text-ink-400">
           نام و نام خانوادگی
           <input v-model="form.customerName" type="text" required class="field-input" />
         </label>
-        <label class="block text-sm text-ivory-400">
+        <label class="block text-sm text-ink-400">
           شماره موبایل
           <input v-model="form.phone" type="tel" dir="ltr" placeholder="09xxxxxxxxx" required class="field-input" />
         </label>
-        <label class="block text-sm text-ivory-400">
+        <label class="block text-sm text-ink-400">
           استان
           <input v-model="form.province" type="text" required class="field-input" />
         </label>
-        <label class="block text-sm text-ivory-400">
+        <label class="block text-sm text-ink-400">
           شهر
           <input v-model="form.city" type="text" required class="field-input" />
         </label>
-        <label class="block text-sm text-ivory-400 sm:col-span-2">
+        <label class="block text-sm text-ink-400 sm:col-span-2">
           آدرس کامل
           <input v-model="form.address" type="text" required class="field-input" />
         </label>
-        <label class="block text-sm text-ivory-400">
+        <label class="block text-sm text-ink-400">
           کد پستی (اختیاری)
           <input v-model="form.postalCode" type="text" dir="ltr" class="field-input" />
         </label>
       </div>
 
       <!-- OTP -->
-      <div class="mt-6 border border-gold/15 bg-ink-800 p-5">
+      <div class="mt-6 rounded-2xl border border-silver/70 bg-white p-5">
         <div class="flex flex-wrap items-center gap-3">
           <input
             v-model="otpCode"
@@ -156,24 +146,24 @@ async function submitOrder() {
             maxlength="5"
             dir="ltr"
             placeholder="کد ۵ رقمی"
-            class="w-40 border border-gold/20 bg-ink-700 px-3 py-2.5 text-center tracking-widest text-ivory placeholder:text-ivory-500 focus:border-gold-400 focus:outline-none focus:ring-1 focus:ring-gold-400/40"
+            class="w-40 rounded-xl border border-silver/80 bg-paper-50 px-3 py-2.5 text-center tracking-widest text-ink placeholder:text-ink-400 focus:border-ice-500 focus:outline-none focus:ring-1 focus:ring-ice-500/50"
           />
           <button
             :disabled="sending"
-            class="border border-gold/40 px-5 py-2.5 text-sm text-gold-300 transition-all duration-300 hover:border-gold hover:text-gold-200 disabled:cursor-not-allowed disabled:opacity-50"
+            class="rounded-full border border-silver/90 px-5 py-2.5 text-sm text-ink transition-all duration-300 hover:border-clay hover:text-clay disabled:cursor-not-allowed disabled:opacity-50"
             @click="sendOtp"
           >
             {{ sending ? 'در حال ارسال...' : otpSent ? 'ارسال مجدد' : 'ارسال کد' }}
           </button>
         </div>
-        <p v-if="otpSent" class="mt-3 text-xs text-gold-400/80">کد تأیید ارسال شد.</p>
+        <p v-if="otpSent" class="mt-3 text-xs text-ice-700">کد تأیید ارسال شد.</p>
       </div>
 
-      <p v-if="errorMessage" class="mt-4 border border-red-400/30 bg-red-950/40 p-3.5 text-sm text-red-300">{{ errorMessage }}</p>
+      <p v-if="errorMessage" class="mt-4 rounded-xl border border-red-300 bg-red-50 p-3.5 text-sm text-red-700">{{ errorMessage }}</p>
 
       <button
         :disabled="submitting || !otpSent"
-        class="mt-6 w-full border border-gold bg-gold py-3.5 text-sm font-medium text-ink-950 transition-colors duration-300 hover:bg-gold-300 disabled:cursor-not-allowed disabled:opacity-40"
+        class="btn-primary mt-6 w-full py-3.5 disabled:cursor-not-allowed disabled:opacity-40"
         @click="submitOrder"
       >
         {{ submitting ? 'در حال ثبت...' : 'ثبت نهایی سفارش' }}

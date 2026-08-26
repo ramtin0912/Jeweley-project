@@ -77,43 +77,43 @@ function addToCart() {
 <template>
   <div v-if="product" class="grid gap-10 md:grid-cols-2 md:gap-12">
     <!-- Image -->
-    <div class="reveal relative aspect-square overflow-hidden border border-gold/15 bg-ink-900">
+    <div class="reveal relative aspect-square overflow-hidden rounded-2xl border border-silver/70 bg-paper-100">
       <img
         v-if="product.image"
         :src="product.image"
         :alt="product.nameFa"
         class="h-full w-full object-cover"
       />
-      <span v-else class="absolute inset-0 flex items-center justify-center font-serif text-8xl text-gold-500/40">
+      <span v-else class="absolute inset-0 flex items-center justify-center font-serif text-8xl text-silver-700/40">
         {{ product.nameFa.charAt(0) }}
       </span>
-      <div aria-hidden="true" class="pointer-events-none absolute inset-0 ring-1 ring-inset ring-white/5"></div>
+      <div aria-hidden="true" class="pointer-events-none absolute inset-0 ring-1 ring-inset ring-silver/40"></div>
     </div>
 
     <!-- Details -->
     <div class="reveal" style="animation-delay: 100ms">
-      <p v-if="product.category" class="text-sm text-gold-400/80">{{ product.category.nameFa }}</p>
-      <h1 class="mt-2 font-serif text-3xl font-bold leading-snug text-ivory sm:text-4xl">{{ product.nameFa }}</h1>
-      <p class="mt-4 text-2xl font-medium text-gold-400">{{ formatToman(displayPrice) }}</p>
+      <p v-if="product.category" class="text-sm text-ice-700">{{ product.category.nameFa }}</p>
+      <h1 class="mt-2 font-serif text-4xl font-bold leading-snug text-ink sm:text-5xl">{{ product.nameFa }}</h1>
+      <p class="mt-4 text-2xl font-medium text-ink-500">{{ formatToman(displayPrice) }}</p>
 
-      <div class="mt-6 border-y border-gold/15 py-4">
+      <div class="mt-6 border-y border-silver/70 py-4">
         <dl class="space-y-3 text-sm">
           <div v-if="product.material" class="flex justify-between gap-6">
-            <dt class="text-ivory-500">جنس</dt>
-            <dd class="text-ivory">{{ product.material }}</dd>
+            <dt class="text-ink-400">جنس</dt>
+            <dd class="text-ink">{{ product.material }}</dd>
           </div>
           <div v-if="product.weightGrams" class="flex justify-between gap-6">
-            <dt class="text-ivory-500">وزن</dt>
-            <dd class="text-ivory">{{ product.weightGrams }} گرم</dd>
+            <dt class="text-ink-400">وزن</dt>
+            <dd class="text-ink">{{ product.weightGrams }} گرم</dd>
           </div>
           <div class="flex items-center justify-between gap-6">
-            <dt class="text-ivory-500">وضعیت</dt>
+            <dt class="text-ink-400">وضعیت</dt>
             <dd class="flex items-center gap-2">
               <span
                 class="h-1.5 w-1.5 rounded-full"
-                :class="product.stockCount > 0 ? 'bg-gold-400' : 'bg-red-400'"
+                :class="product.stockCount > 0 ? 'bg-ice-500' : 'bg-red-400'"
               ></span>
-              <span :class="product.stockCount > 0 ? 'text-gold-300' : 'text-red-400'">
+              <span :class="product.stockCount > 0 ? 'text-ice-700' : 'text-red-500'">
                 {{ product.stockCount > 0 ? `موجود (${product.stockCount} عدد)` : 'ناموجود' }}
               </span>
             </dd>
@@ -122,36 +122,36 @@ function addToCart() {
       </div>
 
       <div v-if="product.variants.length" class="mt-6">
-        <p class="mb-3 text-sm text-ivory-500">انتخاب</p>
+        <p class="mb-3 text-sm text-ink-400">انتخاب</p>
         <div class="flex flex-wrap gap-2">
           <button
             v-for="variant in product.variants"
             :key="variant.id"
-            class="border px-4 py-2 text-sm transition-colors duration-300"
-            :class="selectedVariantId === variant.id ? 'border-gold bg-gold/15 text-gold-300' : 'border-gold/20 text-ivory-400 hover:border-gold/50 hover:text-ivory'"
+            class="rounded-full border px-4 py-2 text-sm transition-colors duration-300"
+            :class="selectedVariantId === variant.id ? 'border-clay bg-clay text-white' : 'border-silver/90 bg-white text-ink-400 hover:border-clay hover:text-clay'"
             @click="selectedVariantId = variant.id"
           >
             {{ variant.value }}
-            <span v-if="variant.priceDeltaToman" class="text-gold-500">(+{{ formatToman(variant.priceDeltaToman) }})</span>
+            <span v-if="variant.priceDeltaToman" class="opacity-80">(+{{ formatToman(variant.priceDeltaToman) }})</span>
           </button>
         </div>
       </div>
 
       <div v-if="product.stockCount > 0" class="mt-8 flex items-center gap-3">
-        <div class="flex items-center border border-gold/25">
-          <button class="px-4 py-2.5 text-sm text-ivory-400 transition-colors hover:text-ivory" @click="quantity = Math.max(1, quantity - 1)">−</button>
-          <span class="min-w-10 border-x border-gold/25 text-center text-sm">{{ quantity }}</span>
-          <button class="px-4 py-2.5 text-sm text-ivory-400 transition-colors hover:text-ivory" @click="quantity = quantity + 1">+</button>
+        <div class="flex items-center rounded-full border border-silver/90 bg-white">
+          <button class="px-4 py-2.5 text-sm text-ink-400 transition-colors hover:text-ink" @click="quantity = Math.max(1, quantity - 1)">−</button>
+          <span class="min-w-10 border-x border-silver/70 text-center text-sm">{{ quantity }}</span>
+          <button class="px-4 py-2.5 text-sm text-ink-400 transition-colors hover:text-ink" @click="quantity = quantity + 1">+</button>
         </div>
         <button
-          class="flex-1 border border-gold bg-gold px-6 py-2.5 text-sm font-medium text-ink-950 transition-all duration-300 hover:bg-gold-300"
+          class="flex-1 rounded-full bg-clay px-6 py-2.5 text-sm font-semibold text-white transition-all duration-300 hover:bg-clay-400"
           @click="addToCart"
         >
           افزودن به سبد
         </button>
       </div>
 
-      <p v-if="product.descriptionFa" class="mt-8 leading-relaxed text-ivory-400">{{ product.descriptionFa }}</p>
+      <p v-if="product.descriptionFa" class="mt-8 leading-relaxed text-ink-400">{{ product.descriptionFa }}</p>
     </div>
   </div>
 </template>
