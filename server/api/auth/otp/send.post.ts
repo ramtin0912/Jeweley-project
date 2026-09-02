@@ -1,3 +1,4 @@
+// story: e02s01
 /**
  * @file otp send
  * @description POST /api/auth/otp/send — send a 5-digit OTP (Kavenegar, or console in dev).
@@ -37,7 +38,12 @@ export default defineEventHandler(async (event) => {
   const expiresAt = new Date(Date.now() + 5 * 60 * 1000)
 
   await prisma.otpCode.create({ data: { phone, codeHash, expiresAt } })
-  await sendOtp(phone, code)
+  const deliveryMode = await sendOtp(phone, code)
 
+  // Dev mode (no Kavenegar key): return the code so the checkout page can
+  // auto-fill it. Real-SMS mode never exposes the code in the response.
+  if (deliveryMode === 'dev') {
+    return { ok: true, devCode: code }
+  }
   return { ok: true }
 })

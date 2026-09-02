@@ -14,14 +14,14 @@ const errorMessage = ref('')
 interface PortfolioForm {
   titleFa: string
   descriptionFa: string
-  image: string
+  image: string | null
   material: string
   year: string
   isFeatured: boolean
 }
 
 const emptyForm = (): PortfolioForm => ({
-  titleFa: '', descriptionFa: '', image: '', material: '', year: '', isFeatured: false
+  titleFa: '', descriptionFa: '', image: null, material: '', year: '', isFeatured: false
 })
 
 const form = reactive<PortfolioForm>(emptyForm())
@@ -37,7 +37,7 @@ function openEdit(work: PortfolioWork) {
   Object.assign(form, {
     titleFa: work.titleFa,
     descriptionFa: work.descriptionFa ?? '',
-    image: work.image ?? '',
+    image: work.image ?? null,
     material: work.material ?? '',
     year: work.year != null ? String(work.year) : '',
     isFeatured: work.isFeatured
@@ -54,7 +54,7 @@ async function save() {
     const payload = {
       titleFa: form.titleFa,
       descriptionFa: form.descriptionFa || null,
-      image: form.image || null,
+      image: form.image?.trim() || null,
       material: form.material || null,
       year: form.year.trim() ? Number(form.year) : null,
       isFeatured: form.isFeatured
@@ -102,9 +102,7 @@ async function remove(work: PortfolioWork) {
         <label class="block text-sm">جنس
           <input v-model="form.material" type="text" class="mt-1 w-full rounded-md border border-neutral-300 px-3 py-2" />
         </label>
-        <label class="block text-sm">تصویر (آدرس)
-          <input v-model="form.image" type="text" dir="ltr" class="mt-1 w-full rounded-md border border-neutral-300 px-3 py-2" />
-        </label>
+        <AdminImageUpload v-model="form.image" folder="portfolio" label="تصویر" />
         <label class="block text-sm">سال
           <input v-model="form.year" type="text" class="mt-1 w-full rounded-md border border-neutral-300 px-3 py-2" />
         </label>

@@ -1,16 +1,19 @@
 /**
  * @file orders index
- * @description POST /api/orders — verify OTP, re-price items from DB, create a PENDING order,
- *   then request a Zarinpal payment and return the redirect URL.
+ * @description POST /api/orders — verify OTP, re-price items from DB, create an order,
+ *   then either mark it paid (DEMO_PAYMENT=true, no gateway) and redirect to the success
+ *   page, or request a Zarinpal payment and return its redirect URL.
  *
- * @status Payment request wired; stock reserved on payment success (see payment/callback)
+ * @status Demo-payment bypass wired; real gateway path intact (Zarinpal sandbox/prod)
  * @issues None
  * @todo None
  */
+// story: e02s02
 import { z } from 'zod'
 import { prisma } from '~~/server/utils/prisma'
 import { isValidIranianPhone, normalizePhone, verifyOtpCode } from '~~/server/utils/otp'
 import { requestPayment, startPayUrl } from '~~/server/utils/zarinpal'
+import { reserveStock } from '~~/server/utils/stock'
 
 const itemSchema = z.object({
   itemType: z.enum(['product', 'package']),
@@ -159,7 +162,24 @@ export default defineEventHandler(async (event) => {
     }
   })
 
-  // 4. Request Zarinpal payment and return the redirect URL
+  // 4. Mark paid (demo mode) or request Zarinpal payment (real mode)
+  const demoPayment = process.env.DEMO_PAYMENT === 'true'
+  if (demoPayment) {
+    // Demo path — no gateway: mark the order paid immediately, reserve stock, and
+    // send the buyer to the success page (which previews the receipt SMS).
+    await prisma.order.update({
+      where: { id: order.id },
+      data: { status: 'PAID', paidAt: new Date() }
+    })
+    await reserveStock(order.id)
+
+    return {
+      orderNumber: order.orderNumber,
+      totalToman: order.totalToman,
+      redirectUrl: `/order/success?orderNumber=${order.orderNumber}&name=${encodeURIComponent(order.customerName)}`
+    }
+  }
+
   const origin = getRequestURL(event).origin
   const authority = await requestPayment({
     amountToman: totalToman,

@@ -13,6 +13,8 @@ const { data: packages } = await useFetch<Package[]>('/api/packages', { default:
 const cart = useCartStore()
 const { open } = useCartDrawer()
 
+const failedImages = reactive<Record<number, boolean>>({})
+
 function addPackage(pkg: Package) {
   if (pkg.stockCount <= 0) return
   cart.addItem({
@@ -45,8 +47,23 @@ function addPackage(pkg: Package) {
       <div
         v-for="pkg in packages"
         :key="pkg.id"
-        class="reveal flex flex-col rounded-2xl border border-silver/70 bg-white p-6 transition-all duration-500 hover:-translate-y-1 hover:border-ice-500/70 hover:shadow-[0_18px_40px_-18px_rgba(93,147,161,0.4)]"
+        class="reveal flex flex-col overflow-hidden rounded-2xl border border-silver/70 bg-white transition-all duration-500 hover:-translate-y-1 hover:border-ice-500/70 hover:shadow-[0_18px_40px_-18px_rgba(93,147,161,0.4)]"
       >
+        <div class="relative aspect-[16/10] overflow-hidden bg-paper-100">
+          <img
+            v-if="pkg.image && !failedImages[pkg.id]"
+            :src="pkg.image"
+            :alt="pkg.nameFa"
+            class="h-full w-full object-cover transition-transform duration-700 ease-out group-hover:scale-[1.04]"
+            @error="failedImages[pkg.id] = true"
+          />
+          <span v-else class="absolute inset-0 flex items-center justify-center font-serif text-6xl text-silver-700/50">
+            {{ pkg.nameFa.charAt(0) }}
+          </span>
+          <div aria-hidden="true" class="pointer-events-none absolute inset-0 ring-1 ring-inset ring-silver/40"></div>
+        </div>
+
+        <div class="flex flex-1 flex-col p-6">
         <div class="flex items-start justify-between gap-4">
           <h2 class="font-serif text-2xl font-bold text-ink">{{ pkg.nameFa }}</h2>
           <span v-if="pkg.stockCount <= 0" class="rounded-full border border-silver/70 px-2 py-0.5 text-[11px] text-ink-400">ناموجود</span>
@@ -62,7 +79,7 @@ function addPackage(pkg: Package) {
           </li>
         </ul>
 
-        <div class="mt-6 flex items-center justify-between border-t border-silver/60 pt-5">
+        <div class="mt-auto flex items-center justify-between border-t border-silver/60 pt-5">
           <p class="text-xl font-medium text-ink-500">{{ formatToman(pkg.priceToman) }}</p>
           <button
             v-if="pkg.stockCount > 0"
@@ -71,6 +88,7 @@ function addPackage(pkg: Package) {
           >
             افزودن به سبد
           </button>
+        </div>
         </div>
       </div>
 

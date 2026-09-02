@@ -7,6 +7,8 @@ useSeoMeta({
 })
 
 const { data: works } = await useFetch<PortfolioWork[]>('/api/portfolio', { default: () => [] })
+
+const failedImages = reactive<Record<number, boolean>>({})
 </script>
 
 <template>
@@ -29,10 +31,11 @@ const { data: works } = await useFetch<PortfolioWork[]>('/api/portfolio', { defa
       >
         <div class="relative overflow-hidden rounded-2xl border border-silver/70 bg-paper-100">
           <img
-            v-if="work.image"
+            v-if="work.image && !failedImages[work.id]"
             :src="work.image"
             :alt="work.titleFa"
             class="w-full object-cover transition-transform duration-700 ease-out group-hover:scale-[1.04]"
+            @error="failedImages[work.id] = true"
           />
           <div
             v-else

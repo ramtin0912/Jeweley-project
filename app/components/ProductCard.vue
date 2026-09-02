@@ -8,6 +8,8 @@ const props = defineProps<{ product: Product }>()
 const cart = useCartStore()
 const { open } = useCartDrawer()
 
+const imageFailed = ref(false)
+
 function addToCart() {
   if (props.product.stockCount <= 0) return
   cart.addItem({
@@ -32,10 +34,11 @@ function addToCart() {
     <NuxtLink :to="`/products/${product.slug}`" class="flex flex-1 flex-col">
       <div class="relative aspect-square overflow-hidden bg-paper-100">
         <img
-          v-if="product.image"
+          v-if="product.image && !imageFailed"
           :src="product.image"
           :alt="product.nameFa"
           class="h-full w-full object-cover transition-transform duration-700 ease-out group-hover:scale-[1.05]"
+          @error="imageFailed = true"
         />
         <span v-else class="absolute inset-0 flex items-center justify-center font-serif text-6xl text-silver-700/50">
           {{ product.nameFa.charAt(0) }}

@@ -20,9 +20,11 @@ async function logout() {
 
 const links = [
   { to: '/admin', label: 'داشبورد' },
+  { to: '/admin/finance', label: 'امور مالی' },
   { to: '/admin/products', label: 'محصولات' },
   { to: '/admin/packages', label: 'پکیج‌ها' },
   { to: '/admin/portfolio', label: 'نمونه‌کارها' },
+  { to: '/admin/posts', label: 'وبلاگ' },
   { to: '/admin/orders', label: 'سفارش‌ها' }
 ]
 </script>

@@ -24,3 +24,16 @@ export interface BlogPostDetail {
   seoDescription: string | null
   publishedAt: string | null
 }
+
+export interface BlogPost {
+  id: number
+  titleFa: string
+  slug: string
+  contentMd: string
+  seoTitle: string | null
+  seoDescription: string | null
+  published: boolean
+  publishedAt: string | null
+  createdAt: string
+  updatedAt: string
+}

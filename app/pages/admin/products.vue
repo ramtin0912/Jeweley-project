@@ -21,7 +21,7 @@ interface ProductForm {
   stockCount: number
   material: string
   weightGrams: string
-  image: string
+  image: string | null
   status: string
   isExclusive: boolean
   descriptionFa: string
@@ -37,7 +37,7 @@ const emptyForm = (): ProductForm => ({
   stockCount: 0,
   material: '',
   weightGrams: '',
-  image: '',
+  image: null,
   status: 'ACTIVE',
   isExclusive: false,
   descriptionFa: '',
@@ -63,7 +63,7 @@ function openEdit(product: Product) {
     stockCount: product.stockCount,
     material: product.material ?? '',
     weightGrams: product.weightGrams != null ? String(product.weightGrams) : '',
-    image: product.image ?? '',
+    image: product.image ?? null,
     status: product.status,
     isExclusive: product.isExclusive,
     descriptionFa: product.descriptionFa ?? '',
@@ -86,7 +86,7 @@ async function save() {
       stockCount: form.stockCount,
       material: form.material || null,
       weightGrams: form.weightGrams.trim() ? Number(form.weightGrams) : null,
-      image: form.image || null,
+      image: form.image?.trim() || null,
       status: form.status,
       isExclusive: form.isExclusive,
       descriptionFa: form.descriptionFa || null,
@@ -152,9 +152,7 @@ async function remove(product: Product) {
         <label class="block text-sm">وزن (گرم)
           <input v-model="form.weightGrams" type="text" class="mt-1 w-full rounded-md border border-neutral-300 px-3 py-2" />
         </label>
-        <label class="block text-sm">تصویر (آدرس)
-          <input v-model="form.image" type="text" dir="ltr" class="mt-1 w-full rounded-md border border-neutral-300 px-3 py-2" />
-        </label>
+        <AdminImageUpload v-model="form.image" folder="products" label="تصویر" />
         <label class="block text-sm">اسلاگ (اختیاری)
           <input v-model="form.slug" type="text" dir="ltr" class="mt-1 w-full rounded-md border border-neutral-300 px-3 py-2" />
         </label>

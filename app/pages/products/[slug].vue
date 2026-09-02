@@ -49,6 +49,7 @@ const { open } = useCartDrawer()
 
 const selectedVariantId = ref<number | null>(null)
 const quantity = ref(1)
+const imageFailed = ref(false)
 
 const displayPrice = computed(() => {
   const base = product.value?.priceToman ?? 0
@@ -79,10 +80,11 @@ function addToCart() {
     <!-- Image -->
     <div class="reveal relative aspect-square overflow-hidden rounded-2xl border border-silver/70 bg-paper-100">
       <img
-        v-if="product.image"
+        v-if="product.image && !imageFailed"
         :src="product.image"
         :alt="product.nameFa"
         class="h-full w-full object-cover"
+        @error="imageFailed = true"
       />
       <span v-else class="absolute inset-0 flex items-center justify-center font-serif text-8xl text-silver-700/40">
         {{ product.nameFa.charAt(0) }}

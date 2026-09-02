@@ -1,30 +1,26 @@
 <script setup lang="ts">
-import type { Order } from '~/types/admin'
-import { formatToman } from '~/utils/formatToman'
+import type { OrdersResponse } from '~/types/admin'
+import { formatToman, toPersianDigits } from '~/utils/formatToman'
 import { toShamsiDate } from '~/utils/shamsiDate'
 import { getErrorMessage } from '~/utils/getErrorMessage'
+import { ORDER_STATUS_LABELS, orderStatusBadgeClass } from '~/utils/orderStatus'
 
 definePageMeta({ layout: 'admin' })
 
-const { data: orders, refresh } = await useFetch<Order[]>('/api/admin/orders')
+const { data, refresh } = await useFetch<OrdersResponse>('/api/admin/orders')
+
+const orders = computed(() => data.value?.orders ?? [])
+const statusBreakdown = computed(() => data.value?.statusBreakdown ?? [])
 
 const statusFilter = ref('')
 const filtered = computed(() => {
-  if (!statusFilter.value) return orders.value ?? []
-  return (orders.value ?? []).filter((o) => o.status === statusFilter.value)
+  if (!statusFilter.value) return orders.value
+  return orders.value.filter((o) => o.status === statusFilter.value)
 })
 
-const STATUS_LABELS: Record<string, string> = {
-  PENDING: 'در انتظار پرداخت',
-  PAID: 'پرداخت شده',
-  SHIPPED: 'ارسال شده',
-  DELIVERED: 'تحویل شده',
-  CANCELED: 'لغو شده'
-}
-
-async function updateStatus(order: Order, status: string) {
+async function updateStatus(orderId: number, status: string) {
   try {
-    await $fetch(`/api/admin/orders/${order.id}`, { method: 'PATCH', body: { status } })
+    await $fetch(`/api/admin/orders/${orderId}`, { method: 'PATCH', body: { status } })
     refresh()
   } catch (error) {
     alert(getErrorMessage(error))
@@ -36,11 +32,25 @@ async function updateStatus(order: Order, status: string) {
   <div>
     <h1 class="text-2xl font-bold">سفارش‌ها</h1>
 
-    <div class="mt-4 flex items-center gap-2">
+    <h2 class="mt-8 flex items-center gap-2 text-lg font-semibold">
+      <span aria-hidden="true" class="text-ice-500">✦</span>
+      وضعیت سفارش‌ها
+    </h2>
+    <div class="mt-3 grid gap-3 sm:grid-cols-2 lg:grid-cols-5">
+      <div v-for="row in statusBreakdown" :key="row.status" class="mbx-panel text-center">
+        <span :class="['inline-block rounded-full px-3 py-1 text-xs font-medium', orderStatusBadgeClass(row.status)]">
+          {{ row.label }}
+        </span>
+        <p class="mt-3 text-2xl font-bold">{{ toPersianDigits(row.count) }}</p>
+        <p class="mt-1 text-xs text-neutral-500">مبلغ {{ formatToman(row.revenue) }}</p>
+      </div>
+    </div>
+
+    <div class="mt-6 flex items-center gap-2">
       <span class="text-sm text-neutral-500">فیلتر وضعیت:</span>
       <select v-model="statusFilter" class="rounded-md border border-neutral-300 px-3 py-1.5 text-sm">
         <option value="">همه</option>
-        <option v-for="(label, key) in STATUS_LABELS" :key="key" :value="key">{{ label }}</option>
+        <option v-for="(label, key) in ORDER_STATUS_LABELS" :key="key" :value="key">{{ label }}</option>
       </select>
     </div>
 
@@ -48,7 +58,10 @@ async function updateStatus(order: Order, status: string) {
       <div v-for="order in filtered" :key="order.id" class="rounded-lg border border-neutral-200 bg-white p-4">
         <div class="flex flex-wrap items-center justify-between gap-3">
           <div>
-            <p class="font-medium">{{ order.orderNumber }}</p>
+            <span :class="['inline-block rounded-full px-2.5 py-0.5 text-xs font-medium', orderStatusBadgeClass(order.status)]">
+              {{ ORDER_STATUS_LABELS[order.status] ?? order.status }}
+            </span>
+            <p class="mt-1.5 font-medium">{{ order.orderNumber }}</p>
             <p class="text-sm text-neutral-500">{{ order.customerName }} · {{ order.customerPhone }}</p>
             <p class="mt-1 text-sm text-neutral-600">{{ order.province }}، {{ order.city }} — {{ order.address }}</p>
           </div>
@@ -69,8 +82,8 @@ async function updateStatus(order: Order, status: string) {
 
         <div class="mt-3 flex items-center gap-2">
           <span class="text-sm">وضعیت:</span>
-          <select :value="order.status" class="rounded-md border border-neutral-300 px-3 py-1.5 text-sm" @change="updateStatus(order, ($event.target as HTMLSelectElement).value)">
-            <option v-for="(label, key) in STATUS_LABELS" :key="key" :value="key">{{ label }}</option>
+          <select :value="order.status" class="rounded-md border border-neutral-300 px-3 py-1.5 text-sm" @change="updateStatus(order.id, ($event.target as HTMLSelectElement).value)">
+            <option v-for="(label, key) in ORDER_STATUS_LABELS" :key="key" :value="key">{{ label }}</option>
           </select>
         </div>
       </div>

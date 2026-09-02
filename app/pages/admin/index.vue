@@ -1,7 +1,8 @@
 <script setup lang="ts">
 import type { Earnings } from '~/types/admin'
-import { formatToman } from '~/utils/formatToman'
+import { formatToman, toPersianDigits } from '~/utils/formatToman'
 import { toShamsiDate } from '~/utils/shamsiDate'
+import { orderStatusBadgeClass, orderStatusLabel } from '~/utils/orderStatus'
 
 definePageMeta({ layout: 'admin' })
 
@@ -16,13 +17,14 @@ const { data } = await useFetch<Earnings>('/api/admin/earnings')
     </div>
 
     <div class="mt-6 grid gap-4 sm:grid-cols-2">
-      <div class="mbx-panel">
-        <p class="text-sm text-neutral-500">درآمد کل</p>
-        <p class="mt-2 text-3xl font-bold text-clay">{{ formatToman(data?.totalRevenue ?? 0) }}</p>
+      <div class="mbx-panel border-clay/40 bg-clay/5">
+        <p class="text-sm text-neutral-600">درآمد این ماه</p>
+        <p class="mt-2 text-3xl font-bold text-clay">{{ formatToman(data?.thisMonthRevenue ?? 0) }}</p>
       </div>
+
       <div class="mbx-panel">
-        <p class="text-sm text-neutral-500">سفارش‌های پرداخت‌شده</p>
-        <p class="mt-2 text-3xl font-bold">{{ data?.orderCount ?? 0 }}</p>
+        <p class="text-sm text-neutral-500">تعداد سفارش‌های پرداخت‌شده این ماه</p>
+        <p class="mt-2 text-3xl font-bold">{{ toPersianDigits(data?.thisMonthOrderCount ?? 0) }}</p>
       </div>
     </div>
 
@@ -42,7 +44,7 @@ const { data } = await useFetch<Earnings>('/api/admin/earnings')
         <tbody>
           <tr v-for="item in data?.perProduct ?? []" :key="item.nameFa" class="border-b border-neutral-100 last:border-0">
             <td class="p-3">{{ item.nameFa }}</td>
-            <td class="p-3">{{ item.quantity }}</td>
+            <td class="p-3">{{ toPersianDigits(item.quantity) }}</td>
             <td class="p-3 text-clay">{{ formatToman(item.revenue) }}</td>
           </tr>
           <tr v-if="!data?.perProduct?.length">
@@ -60,10 +62,15 @@ const { data } = await useFetch<Earnings>('/api/admin/earnings')
       <li
         v-for="order in data?.recentOrders ?? []"
         :key="order.orderNumber"
-        class="flex flex-wrap justify-between gap-2 rounded-xl border border-neutral-200 bg-white p-3.5 text-sm transition-colors hover:border-neutral-300"
+        class="flex flex-wrap items-center justify-between gap-2 rounded-xl border border-neutral-200 bg-white p-3.5 text-sm transition-colors hover:border-neutral-300"
       >
-        <span>{{ order.orderNumber }} — {{ order.customerName }}</span>
-        <span>{{ formatToman(order.totalToman) }} · {{ toShamsiDate(order.paidAt) }}</span>
+        <span class="flex flex-wrap items-center gap-2">
+          <span :class="['rounded-full px-2.5 py-0.5 text-xs font-medium', orderStatusBadgeClass(order.status)]">
+            {{ orderStatusLabel(order.status) }}
+          </span>
+          <span>{{ order.orderNumber }} — {{ order.customerName }}</span>
+        </span>
+        <span>{{ formatToman(order.totalToman) }} · {{ toShamsiDate(order.createdAt) }}</span>
       </li>
       <li v-if="!data?.recentOrders?.length" class="rounded-xl border border-neutral-200 bg-white p-3.5 text-sm text-neutral-500">
         سفارشی ثبت نشده است.

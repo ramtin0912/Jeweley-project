@@ -87,7 +87,7 @@ const navLinks = [
             {{ link.label }}
           </NuxtLink>
         </nav>
-        <p class="text-xs text-ink-400">هر قطعه، نقره و کریستال — ساخته‌شده با دست‌های مهربان.</p>
+        <p class="text-xs text-ink-400">هر قطعه، نقره و کریستال — یکتا، چون دلِ ماه.</p>
       </div>
     </footer>
 

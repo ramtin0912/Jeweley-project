@@ -34,12 +34,47 @@ export interface Order {
 export interface Earnings {
   totalRevenue: number
   orderCount: number
+  thisMonthRevenue: number
+  thisMonthOrderCount: number
+  lastMonthRevenue: number
+  todayRevenue: number
   perProduct: Array<{ nameFa: string; quantity: number; revenue: number }>
   recentOrders: Array<{
     orderNumber: string
     customerName: string
     totalToman: number
+    status: string
+    createdAt: string
     paidAt: string | null
     itemCount: number
   }>
+}
+
+export interface FinanceStatusRow {
+  status: string
+  label: string
+  count: number
+  revenue: number
+}
+
+export interface Finance {
+  totals: {
+    totalRevenue: number
+    orderCount: number
+    thisMonthRevenue: number
+    thisMonthOrderCount: number
+    lastMonthRevenue: number
+    todayRevenue: number
+    avgOrderValue: number
+  }
+  monthly: Array<{ year: number; month: number; label: string; revenue: number; orderCount: number }>
+  monthTotal: number
+  monthPage: number
+  monthPerPage: number
+  perProduct: Array<{ nameFa: string; quantity: number; revenue: number }>
+}
+
+export interface OrdersResponse {
+  orders: Order[]
+  statusBreakdown: FinanceStatusRow[]
 }

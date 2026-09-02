@@ -1,3 +1,4 @@
+// story: e02s01
 <script setup lang="ts">
 import { useCartStore } from '~/stores/cartStore'
 import { formatToman } from '~/utils/formatToman'
@@ -16,6 +17,7 @@ const form = reactive({
 })
 const otpCode = ref('')
 const otpSent = ref(false)
+const devCodeFilled = ref(false)
 const sending = ref(false)
 const submitting = ref(false)
 const errorMessage = ref('')
@@ -25,8 +27,16 @@ async function sendOtp() {
   errorMessage.value = ''
   sending.value = true
   try {
-    await $fetch('/api/auth/otp/send', { method: 'POST', body: { phone: form.phone } })
+    const response = await $fetch<{ ok: boolean; devCode?: string }>('/api/auth/otp/send', {
+      method: 'POST',
+      body: { phone: form.phone }
+    })
     otpSent.value = true
+    // Dev mode only: the API returns the console-logged code so we can fill it in.
+    if (response.devCode) {
+      otpCode.value = response.devCode
+      devCodeFilled.value = true
+    }
   } catch (error) {
     errorMessage.value = getErrorMessage(error)
   } finally {
@@ -157,6 +167,7 @@ async function submitOrder() {
           </button>
         </div>
         <p v-if="otpSent" class="mt-3 text-xs text-ice-700">کد تأیید ارسال شد.</p>
+        <p v-if="devCodeFilled" class="mt-1 text-xs text-clay">کد در حالت توسعه به‌صورت خودکار وارد شد.</p>
       </div>
 
       <p v-if="errorMessage" class="mt-4 rounded-xl border border-red-300 bg-red-50 p-3.5 text-sm text-red-700">{{ errorMessage }}</p>

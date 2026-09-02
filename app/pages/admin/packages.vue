@@ -18,7 +18,7 @@ interface PackageForm {
   slug: string
   descriptionFa: string
   priceToman: number
-  image: string
+  image: string | null
   status: string
   stockCount: number
   seoTitle: string
@@ -26,7 +26,7 @@ interface PackageForm {
 }
 
 const emptyForm = (): PackageForm => ({
-  nameFa: '', slug: '', descriptionFa: '', priceToman: 0, image: '',
+  nameFa: '', slug: '', descriptionFa: '', priceToman: 0, image: null,
   status: 'ACTIVE', stockCount: 0, seoTitle: '', seoDescription: ''
 })
 
@@ -47,7 +47,7 @@ function openEdit(pkg: Package) {
     slug: pkg.slug,
     descriptionFa: pkg.descriptionFa ?? '',
     priceToman: pkg.priceToman,
-    image: pkg.image ?? '',
+    image: pkg.image ?? null,
     status: pkg.status,
     stockCount: pkg.stockCount,
     seoTitle: pkg.seoTitle ?? '',
@@ -75,7 +75,7 @@ async function save() {
       nameFa: form.nameFa,
       priceToman: form.priceToman,
       stockCount: form.stockCount,
-      image: form.image || null,
+      image: form.image?.trim() || null,
       status: form.status,
       descriptionFa: form.descriptionFa || null,
       seoTitle: form.seoTitle || null,
@@ -129,9 +129,7 @@ async function remove(pkg: Package) {
         <label class="block text-sm">موجودی
           <input v-model.number="form.stockCount" type="number" min="0" class="mt-1 w-full rounded-md border border-neutral-300 px-3 py-2" />
         </label>
-        <label class="block text-sm">تصویر (آدرس)
-          <input v-model="form.image" type="text" dir="ltr" class="mt-1 w-full rounded-md border border-neutral-300 px-3 py-2" />
-        </label>
+        <AdminImageUpload v-model="form.image" folder="packages" label="تصویر" />
         <label class="block text-sm">وضعیت
           <select v-model="form.status" class="mt-1 w-full rounded-md border border-neutral-300 px-3 py-2">
             <option value="ACTIVE">فعال</option>
