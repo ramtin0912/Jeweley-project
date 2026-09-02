@@ -26,12 +26,19 @@ logs
 # Generated Prisma client
 app/generated/
 
-# Agent context — local-only, not committed
+# Agent context — local-only, not committed (user Stage-6 decision; bigpowers adoption keeps this)
 AGENTS.md
+AGENTS.md.pre-bigpowers
+CONVENTIONS.md
+CLAUDE.md
+specs/
 _config/
 .agents/
 tasks/
 stages/
 docs/
+
+# bigpowers init — machine-specific symlink to the package scripts tree
+scripts
 
 /app/generated/prisma

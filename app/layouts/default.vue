@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { useCartStore } from '~/stores/cartStore'
 import { useCartDrawer } from '~/composables/useCartDrawer'
+import { BRAND_NAME_FA, BRAND_ENGRAVED_EN } from '~/utils/brand'
 
 const cart = useCartStore()
 const { toggle } = useCartDrawer()
@@ -20,10 +21,10 @@ const navLinks = [
         <NuxtLink to="/" class="group flex flex-col leading-none">
           <span class="flex items-center gap-2 font-serif text-2xl font-bold text-ink">
             <span aria-hidden="true" class="text-ice-500">✦</span>
-            زیورآلات نقره
+            {{ BRAND_NAME_FA }}
           </span>
           <span dir="ltr" class="mt-1.5 self-start font-engraved text-[10px] font-semibold uppercase tracking-[0.34em] text-silver-700">
-            Silver · Crystal · Moon
+            {{ BRAND_ENGRAVED_EN }}
           </span>
         </NuxtLink>
 
@@ -76,10 +77,10 @@ const navLinks = [
       <div class="mx-auto flex max-w-6xl flex-col items-center gap-4 px-4 py-12 text-center sm:px-6">
         <p class="flex items-center gap-2 font-serif text-xl font-bold text-ink">
           <span aria-hidden="true" class="text-ice-500">✦</span>
-          زیورآلات نقره
+          {{ BRAND_NAME_FA }}
         </p>
         <p dir="ltr" class="font-engraved text-[10px] font-semibold uppercase tracking-[0.34em] text-silver-700">
-          Silver · Crystal · Moon
+          {{ BRAND_ENGRAVED_EN }}
         </p>
         <nav class="flex flex-wrap items-center justify-center gap-x-6 gap-y-2 text-sm text-ink-400">
           <NuxtLink v-for="link in navLinks" :key="link.to" :to="link.to" class="transition-colors duration-300 hover:text-clay">

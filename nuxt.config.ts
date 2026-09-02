@@ -1,4 +1,6 @@
 // https://nuxt.com/docs/api/configuration/nuxt-config
+import { BRAND_DOCUMENT_TITLE, BRAND_DOCUMENT_DESCRIPTION } from './app/utils/brand'
+
 export default defineNuxtConfig({
   compatibilityDate: '2025-07-15',
   devtools: { enabled: true },
@@ -20,10 +22,10 @@ export default defineNuxtConfig({
   app: {
     head: {
       htmlAttrs: { lang: 'fa', dir: 'rtl' },
-      title: 'زیورآلات دست‌ساز',
+      title: BRAND_DOCUMENT_TITLE,
       meta: [
         { name: 'viewport', content: 'width=device-width, initial-scale=1' },
-        { name: 'description', content: 'فروشگاه زیورآلات دست‌ساز نقره' }
+        { name: 'description', content: BRAND_DOCUMENT_DESCRIPTION }
       ]
     }
   },

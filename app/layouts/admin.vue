@@ -1,4 +1,6 @@
 <script setup lang="ts">
+import { BRAND_NAME_FA } from '~/utils/brand'
+
 const checking = ref(true)
 
 onMounted(async () => {
@@ -32,7 +34,7 @@ const links = [
         <div class="flex flex-wrap items-center gap-6">
           <NuxtLink to="/admin" class="flex items-center gap-2 font-serif text-lg font-bold">
             <span aria-hidden="true" class="text-clay">✦</span>
-            مدیریت فروشگاه
+            مدیریت {{ BRAND_NAME_FA }}
           </NuxtLink>
           <nav class="flex gap-2 text-sm">
             <NuxtLink

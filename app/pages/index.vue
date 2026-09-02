@@ -1,9 +1,10 @@
 <script setup lang="ts">
 import type { Category, Product } from '~/types/catalog'
+import { BRAND_NAME_FA, BRAND_ENGRAVED_EN } from '~/utils/brand'
 
 useSeoMeta({
-  title: 'زیورآلات نقره با کریستال',
-  description: 'زیورآلات نقره دست‌ساز با سنگ کریستال — هر قطعه یک اثر یکتا.'
+  title: `${BRAND_NAME_FA} | زیورآلات نقرهٔ دست\u200cساز با کریستال`,
+  description: `فروشگاه ${BRAND_NAME_FA}؛ زیورآلات نقرهٔ دست\u200cساز با سنگ کریستال — هر قطعه یکتا (EvTag, one of a kind)`
 })
 
 const { data: categories } = await useFetch<Category[]>('/api/categories', { default: () => [] })
@@ -45,7 +46,7 @@ function selectCategory(slug: string | null) {
       </div>
 
       <p dir="ltr" class="reveal relative z-10 font-engraved text-[11px] font-semibold uppercase tracking-[0.42em] text-silver-700">
-        Made by hand · Silver &amp; Crystal
+        {{ BRAND_ENGRAVED_EN }}
       </p>
 
       <h1 class="reveal relative z-10 mt-6 max-w-3xl font-serif text-5xl font-bold leading-[1.2] text-ink sm:text-7xl" style="animation-delay: 90ms">
