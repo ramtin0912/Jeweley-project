@@ -1,0 +1,45 @@
+@startuml
+left to right direction
+skinparam packageStyle rectangle
+
+actor "مشتری" as Customer
+actor "مدیر سیستم" as Admin
+actor "درگاه پرداخت زرین‌پال" as Payment
+actor "سامانه پیامک" as SMS
+
+rectangle "فروشگاه اینترنتی جواهرات" {
+    usecase "مشاهده محصولات" as UC1
+    usecase "مشاهده جزئیات محصول" as UC2
+    usecase "مشاهده آثار اختصاصی" as UC3
+    usecase "مشاهده نمونه‌کارها" as UC4
+    usecase "مشاهده بسته‌های محصولات" as UC5
+    usecase "ثبت سفارش" as UC6
+    usecase "پرداخت آنلاین" as UC7
+    usecase "احراز هویت پیامکی" as UC8
+
+    usecase "ورود مدیر" as UC9
+    usecase "مدیریت محصولات" as UC10
+    usecase "مدیریت سفارش‌ها" as UC11
+    usecase "مدیریت بسته‌ها" as UC12
+    usecase "مدیریت نمونه‌کارها" as UC13
+}
+
+Customer --> UC1
+Customer --> UC2
+Customer --> UC3
+Customer --> UC4
+Customer --> UC5
+Customer --> UC6
+Customer --> UC7
+Customer --> UC8
+
+Admin --> UC9
+Admin --> UC10
+Admin --> UC11
+Admin --> UC12
+Admin --> UC13
+
+Payment --> UC7
+SMS --> UC8
+
+@enduml
