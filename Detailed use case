@@ -1,0 +1,22 @@
+@startuml
+left to right direction
+
+actor "مشتری" as Customer
+actor "درگاه پرداخت زرین‌پال" as Payment
+
+rectangle "فروشگاه اینترنتی جواهرات" {
+    usecase "ثبت سفارش و پرداخت آنلاین" as Order
+    usecase "محاسبه مبلغ سفارش" as Calculate
+    usecase "پرداخت آنلاین" as Pay
+    usecase "بررسی نتیجه پرداخت" as Verify
+}
+
+Customer --> Order
+Customer --> Pay
+Payment --> Pay
+
+Order ..> Calculate : <<include>>
+Order ..> Pay : <<include>>
+Pay ..> Verify : <<include>>
+
+@enduml
